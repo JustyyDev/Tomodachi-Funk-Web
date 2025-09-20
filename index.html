@@ -1,71 +1,416 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tomodachi-Lite — Make Your Island</title>
+  <style>
+    :root{--bg:#f0f8ff;--card:#ffffff;--accent:#6c8cff;--muted:#6b7280}
+    *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#eaf0ff);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:28px}
+    .wrap{width:980px;max-width:96%;}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#9fb1ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
 
-	<title>Dinesh Pandiyan | Awesome Dev</title>
+    .main{display:grid;grid-template-columns:360px 1fr;gap:18px}
+    .panel{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(21,32,78,0.08)}
 
-	<link rel="icon" href="favicon.ico" type="image/png" />
+    /* left column */
+    .creator{display:flex;flex-direction:column;gap:10px}
+    label{font-size:13px;color:var(--muted)}
+    input[type=text],select{width:100%;padding:8px;border-radius:8px;border:1px solid #e6e9f2}
+    .mii-preview{display:flex;gap:10px;align-items:center}
+    .mii-canvas{width:96px;height:96px;border-radius:12px;background:linear-gradient(180deg,#fff,#f3f6ff);display:flex;align-items:center;justify-content:center;flex-direction:column}
+    .mii-face{width:56px;height:56px;border-radius:999px;background:#ffdca8;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .btn{padding:8px 10px;border-radius:8px;background:var(--accent);color:white;border:0;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid #d5ddff}
 
-	<link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
-	<link href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/styles.css">
-	<link rel="stylesheet" href="css/themes/indigo-white.css">
-	<!-- <link rel="stylesheet" href="css/themes/green-white.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/red-white.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/grey-white.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/white-indigo.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/white-blue.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/white-grey.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/white-red.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/yellow-black.css"> -->
+    .miis-list{margin-top:8px;display:grid;grid-template-columns:repeat(1,1fr);gap:8px}
+    .mii-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;border:1px solid #f1f4ff}
+    .mii-item .meta{flex:1}
+    .small{font-size:12px;color:var(--muted)}
+
+    /* right column */
+    .island{min-height:420px;display:flex;flex-direction:column}
+    .island-header{display:flex;align-items:center;justify-content:space-between}
+    .island-view{margin-top:12px;flex:1;background:linear-gradient(180deg,#dff3ff,#f5fbff);border-radius:10px;padding:12px;display:flex;gap:12px}
+    .apt{flex:1;border-radius:8px;background:#fff;padding:12px;display:flex;flex-direction:column}
+    .apt-grid{display:flex;gap:10px;flex-wrap:wrap}
+    .apt-slot{width:110px;height:110px;border-radius:8px;background:#f8fbff;border:1px dashed #dcecff;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer}
+    .apt-slot .name{font-size:12px;margin-top:6px}
+
+    .mii-sheet{margin-top:10px;border-radius:8px;padding:10px;background:linear-gradient(180deg,#ffffff,#f7f9ff)}
+    .stats{display:flex;gap:8px;margin-top:8px}
+    .stat{flex:1;background:#fff;padding:8px;border-radius:8px;text-align:center;border:1px solid #f1f4ff}
+    .actions{display:flex;gap:8px;margin-top:10px}
+
+    footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
+
+    @media (max-width:900px){.main{grid-template-columns:1fr} .island{order:2}}
+  </style>
 </head>
 <body>
-	<main>
-		<div class="intro">Hello, I'm Dinesh!</div>
-		<div class="tagline">All-Star Dev | Code Fanatic | Linux Hacker | Bleh</div>
-		<!-- Find your icons from here - https://fontawesome.com/icons?d=gallery&s=brands -->
-		<div class="icons-social">
-			<a target="_blank" href="https://github.com/flexdinesh">
-        <i class="fab fa-github" aria-hidden="true" title="Github"></i>
-        <span class="sr-only">Github</span>
-      </a>
-      <a target="_blank" href="https://twitter.com/flexdinesh">
-        <i class="fab fa-twitter" aria-hidden="true" title="Twitter"></i>
-        <span class="sr-only">Twitter</span>
-      </a>
-      <a target="_blank" href="https://dev.to/flexdinesh">
-        <i class="fab fa-dev" aria-hidden="true" title="DEV Community"></i>
-        <span class="sr-only">DEV Community</span>
-      </a>
-      <a target="_blank" href="https://stackoverflow.com/story/flexdinesh">
-        <i class="fab fa-stack-overflow" aria-hidden="true" title="StackOverflow"></i>
-        <span class="sr-only">StackOverflow</span>
-      </a>
-      <a target="_blank" href="https://www.linkedin.com/in/dineshpandiyan">
-        <i class="fab fa-linkedin" aria-hidden="true" title="LinkedIn"></i>
-        <span class="sr-only">LinkedIn</span>
-      </a>
-      <a target="_blank" href="https://medium.com/@flexdinesh">
-        <i class="fab fa-medium" aria-hidden="true" title="Medium"></i>
-        <span class="sr-only">Medium</span>
-      </a>
-      <a target="_blank" href="https://www.freecodecamp.org">
-        <i class="fab fa-free-code-camp" aria-hidden="true" title="FreeCodeCamp"></i>
-        <span class="sr-only">FreeCodeCamp</span>
-      </a>
-      <a target="_blank" href="https://www.behance.net">
-        <i class="fab fa-behance" aria-hidden="true" title="Behance"></i>
-        <span class="sr-only">Behance</span>
-      </a>
-      <a target="_blank" href="https://codepen.io">
-        <i class="fab fa-codepen" aria-hidden="true" title="CodePen"></i>
-        <span class="sr-only">CodePen</span>
-      </a>
+  <div class="wrap">
+    <header>
+      <div class="logo">TL</div>
+      <div>
+        <h1>Tomodachi‑Lite</h1>
+        <p class="lead">Create residents, put them in apartments and interact — saves to your browser.</p>
+      </div>
+    </header>
+
+    <div class="main">
+      <aside class="panel creator">
+        <div>
+          <label for="miiName">Name</label>
+          <input id="miiName" type="text" placeholder="Enter name" />
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="flex:1">
+            <label for="miiMood">Mood</label>
+            <select id="miiMood">
+              <option>Neutral</option>
+              <option>Happy</option>
+              <option>Shy</option>
+              <option>Sleepy</option>
+              <option>Angry</option>
+            </select>
+          </div>
+          <div style="width:92px">
+            <label for="skinTone">Skin</label>
+            <select id="skinTone">
+              <option value="#ffdca8">Light</option>
+              <option value="#f2b07b">Tan</option>
+              <option value="#e7a7ff">Pink</option>
+              <option value="#f4e1b8">Tan2</option>
+              <option value="#c2a27f">Brown</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mii-preview">
+          <div class="mii-canvas" id="preview">
+            <div class="mii-face" id="previewFace">A</div>
+            <div class="small" id="previewMood">Neutral</div>
+          </div>
+          <div style="flex:1">
+            <button class="btn" id="createBtn">Create Mii</button>
+            <button class="btn ghost" id="randomBtn">Random</button>
+          </div>
+        </div>
+
+        <div style="margin-top:8px">
+          <label>Your Miis</label>
+          <div class="miis-list panel" id="miisList" style="max-height:280px;overflow:auto;padding:8px"></div>
+        </div>
+
+      </aside>
+
+      <section class="panel island">
+        <div class="island-header">
+          <div>
+            <strong>Island</strong>
+            <div class="small">Click an apartment slot to visit or place a Mii.</div>
+          </div>
+          <div>
+            <button class="btn ghost" id="clearBtn">Reset Island</button>
+            <button class="btn" id="saveBtn">Save</button>
+          </div>
+        </div>
+
+        <div class="island-view">
+          <div class="apt">
+            <strong>Apartments</strong>
+            <div class="apt-grid" id="slots">
+              <!-- slots inserted by JS -->
+            </div>
+            <div class="small" style="margin-top:8px">Tip: Create a Mii, then click a slot to assign.</div>
+          </div>
+
+          <div style="width:320px">
+            <div class="mii-sheet" id="sheet">
+              <strong id="sheetName">No resident selected</strong>
+              <div id="sheetFace" style="margin-top:8px"></div>
+              <div class="stats" id="sheetStats" style="display:none">
+                <div class="stat"><div class="small">Hunger</div><div id="statHunger">0</div></div>
+                <div class="stat"><div class="small">Mood</div><div id="statMood">Neutral</div></div>
+                <div class="stat"><div class="small">Friendliness</div><div id="statFriend">0</div></div>
+              </div>
+
+              <div class="actions" id="sheetActions" style="display:none">
+                <button class="btn" id="feedBtn">Feed</button>
+                <button class="btn" id="talkBtn">Talk</button>
+                <button class="btn" id="giftBtn">Give Gift</button>
+                <button class="btn ghost" id="evictBtn">Evict</button>
+              </div>
+
+              <div id="log" style="margin-top:10px;font-size:13px;color:var(--muted);min-height:60px">Select a resident to see recent events.</div>
+            </div>
+          </div>
+        </div>
+
+        <footer>Tomodachi‑Lite — saved locally in your browser (localStorage). Built for fun.</footer>
+      </section>
     </div>
-	</main>
+  </div>
+
+  <script>
+    // Simple Tomodachi-like single-file site with localStorage persistence
+    const miisKey = 'tomodachi_lite_miis_v1';
+    const slotsKey = 'tomodachi_lite_slots_v1';
+
+    // DOM
+    const nameInput = document.getElementById('miiName');
+    const moodSelect = document.getElementById('miiMood');
+    const skinSelect = document.getElementById('skinTone');
+    const previewFace = document.getElementById('previewFace');
+    const previewMood = document.getElementById('previewMood');
+    const createBtn = document.getElementById('createBtn');
+    const randomBtn = document.getElementById('randomBtn');
+    const miisList = document.getElementById('miisList');
+    const slotsEl = document.getElementById('slots');
+    const sheet = document.getElementById('sheet');
+    const sheetName = document.getElementById('sheetName');
+    const sheetFace = document.getElementById('sheetFace');
+    const sheetStats = document.getElementById('sheetStats');
+    const sheetActions = document.getElementById('sheetActions');
+    const statHunger = document.getElementById('statHunger');
+    const statMood = document.getElementById('statMood');
+    const statFriend = document.getElementById('statFriend');
+    const logEl = document.getElementById('log');
+    const feedBtn = document.getElementById('feedBtn');
+    const talkBtn = document.getElementById('talkBtn');
+    const giftBtn = document.getElementById('giftBtn');
+    const evictBtn = document.getElementById('evictBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    let miis = load(miisKey) || [];
+    let slots = load(slotsKey) || Array(6).fill(null);
+    let selected = null; // {type:'mii'/'slot', id/index}
+
+    const sampleLines = {
+      talk: [
+        "What a lovely day!",
+        "I want ice cream...",
+        "Let's practice singing!",
+        "I miss my friend.",
+        "That was so funny!"
+      ],
+      gift: [
+        "Wow! I love it!",
+        "Huh? What's this?",
+        "Thanks, I'll put it on.",
+        "A present! For me?"
+      ],
+      default: [
+        "Isn't the island pretty?",
+        "I need a nap...",
+        "I'm hungry.",
+        "Let's be friends!"
+      ]
+    };
+
+    function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+    function load(key){ try{ return JSON.parse(localStorage.getItem(key)); }catch(e){return null} }
+
+    // UI builders
+    function renderPreview(){
+      const name = (nameInput.value||'A').trim();
+      previewFace.textContent = name.charAt(0).toUpperCase() || 'A';
+      previewFace.style.background = skinSelect.value;
+      previewMood.textContent = moodSelect.value;
+    }
+
+    function randomMii(){
+      const names = ['Alex','Maya','Tomo','Luca','Rin','Kai','Nina','Haru','Bea','Ollie'];
+      nameInput.value = names[Math.floor(Math.random()*names.length)];
+      moodSelect.selectedIndex = Math.floor(Math.random()*moodSelect.options.length);
+      skinSelect.selectedIndex = Math.floor(Math.random()*skinSelect.options.length);
+      renderPreview();
+    }
+
+    randomBtn.addEventListener('click',()=>randomMii());
+    nameInput.addEventListener('input',renderPreview);
+    moodSelect.addEventListener('change',renderPreview);
+    skinSelect.addEventListener('change',renderPreview);
+
+    createBtn.addEventListener('click',()=>{
+      const name = (nameInput.value||'Unnamed').trim();
+      const mii = {
+        id: 'm_'+Date.now(),
+        name,
+        skin: skinSelect.value,
+        mood: moodSelect.value,
+        hunger: Math.floor(Math.random()*50),
+        friend: Math.floor(Math.random()*30),
+        log: ["Hi! I'm " + name + "."]
+      };
+      miis.push(mii);
+      save(miisKey,miis);
+      renderMiis();
+      nameInput.value=''; renderPreview();
+    });
+
+    function renderMiis(){
+      miisList.innerHTML='';
+      miis.forEach(m=>{
+        const div = document.createElement('div'); div.className='mii-item';
+        const face = document.createElement('div'); face.className='mii-face'; face.textContent = m.name.charAt(0).toUpperCase(); face.style.background = m.skin;
+        const meta = document.createElement('div'); meta.className='meta';
+        const title = document.createElement('div'); title.textContent = m.name;
+        const small = document.createElement('div'); small.className='small'; small.textContent = m.mood + ' • Hunger ' + m.hunger;
+        meta.appendChild(title); meta.appendChild(small);
+        const actions = document.createElement('div');
+        const assign = document.createElement('button'); assign.className='btn ghost'; assign.textContent='Assign';
+        assign.onclick = ()=>assignToSlot(m.id);
+        const inspect = document.createElement('button'); inspect.className='btn'; inspect.textContent='Inspect';
+        inspect.onclick = ()=>selectMiiById(m.id);
+        actions.appendChild(assign); actions.appendChild(inspect);
+        div.appendChild(face); div.appendChild(meta); div.appendChild(actions);
+        miisList.appendChild(div);
+      });
+    }
+
+    function buildSlots(){
+      slotsEl.innerHTML='';
+      slots.forEach((s,i)=>{
+        const slot = document.createElement('div'); slot.className='apt-slot';
+        if(s){
+          const face = document.createElement('div'); face.className='mii-face'; face.textContent = s.name.charAt(0).toUpperCase(); face.style.background = s.skin;
+          const nm = document.createElement('div'); nm.className='name'; nm.textContent = s.name;
+          slot.appendChild(face); slot.appendChild(nm);
+        } else {
+          slot.innerHTML = '<div style="font-size:12px;color:var(--muted)">Empty</div>';
+        }
+        slot.onclick = ()=>{
+          if(s){ selectSlot(i); } else { quickAssignSlot(i); }
+        };
+        slotsEl.appendChild(slot);
+      });
+    }
+
+    function assignToSlot(miiId){
+      const emptyIndex = slots.findIndex(x=>x===null);
+      if(emptyIndex===-1){ alert('No empty apartments — evict someone first.'); return; }
+      const m = miis.find(x=>x.id===miiId);
+      if(!m) return;
+      slots[emptyIndex]=structuredClone(m);
+      save(slotsKey,slots);
+      buildSlots();
+    }
+
+    function quickAssignSlot(index){
+      // take the first unassigned Mii from miis list
+      const id = miis.length?miis[0].id:null;
+      if(!id){ alert('No Miis available. Create one first.'); return; }
+      assignToSlot(id);
+    }
+
+    function selectMiiById(id){
+      const m = miis.find(x=>x.id===id);
+      if(m) showSheet(m, null);
+    }
+
+    function selectSlot(index){
+      const occupant = slots[index];
+      if(!occupant) return;
+      showSheet(occupant, index);
+    }
+
+    function showSheet(m, slotIndex){
+      selected = slotIndex !== null ? {type:'slot', index:slotIndex} : {type:'mii', id:m.id};
+      sheetName.textContent = m.name + (slotIndex!==null ? ' — Apartment '+(slotIndex+1):'');
+      sheetFace.innerHTML = '';
+      const bigFace = document.createElement('div'); bigFace.className='mii-face'; bigFace.style.width='72px'; bigFace.style.height='72px'; bigFace.textContent=m.name.charAt(0).toUpperCase(); bigFace.style.background=m.skin;
+      sheetFace.appendChild(bigFace);
+      sheetStats.style.display='flex'; sheetActions.style.display='flex';
+      statHunger.textContent = m.hunger;
+      statMood.textContent = m.mood;
+      statFriend.textContent = m.friend;
+      logEl.textContent = (m.log||[]).slice(-4).reverse().join('\n');
+
+      // set action listeners
+      feedBtn.onclick = ()=>doFeed(m, slotIndex);
+      talkBtn.onclick = ()=>doTalk(m, slotIndex);
+      giftBtn.onclick = ()=>doGift(m, slotIndex);
+      evictBtn.onclick = ()=>doEvict(slotIndex);
+    }
+
+    function doFeed(m, slotIndex){
+      m.hunger = Math.max(0, (m.hunger||0)-15);
+      m.friend = (m.friend||0)+3;
+      appendLog(m, "Yummy! Thanks for the food.");
+      persistIfSlot(m, slotIndex);
+      showSheet(m, slotIndex);
+    }
+
+    function doTalk(m, slotIndex){
+      const line = randomFrom(sampleLines.talk);
+      appendLog(m, line);
+      m.friend = (m.friend||0)+1;
+      persistIfSlot(m, slotIndex);
+      showSheet(m, slotIndex);
+    }
+
+    function doGift(m, slotIndex){
+      const line = randomFrom(sampleLines.gift);
+      appendLog(m, line);
+      m.friend = (m.friend||0)+5;
+      persistIfSlot(m, slotIndex);
+      showSheet(m, slotIndex);
+    }
+
+    function doEvict(slotIndex){
+      if(slotIndex===null || slotIndex===undefined){ alert('This Mii is not in an apartment.'); return; }
+      if(!confirm('Evict this resident from apartment '+(slotIndex+1)+'?')) return;
+      slots[slotIndex]=null; save(slotsKey,slots); buildSlots(); sheetName.textContent='No resident selected'; sheetStats.style.display='none'; sheetActions.style.display='none'; selected=null; logEl.textContent='';
+    }
+
+    function persistIfSlot(m, slotIndex){
+      if(slotIndex!==null && slotIndex!==undefined){
+        slots[slotIndex] = structuredClone(m);
+        save(slotsKey, slots);
+      } else {
+        // update master list if editing from miis panel
+        const idx = miis.findIndex(x=>x.id===m.id);
+        if(idx!==-1){ miis[idx] = m; save(miisKey,miis); renderMiis(); }
+      }
+    }
+
+    function appendLog(m, text){
+      m.log = m.log||[]; m.log.push((new Date()).toLocaleTimeString()+ ' — '+text);
+      if(m.log.length>40) m.log.shift();
+    }
+
+    function randomFrom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    // Persistence buttons
+    saveBtn.addEventListener('click',()=>{ save(miisKey,miis); save(slotsKey,slots); alert('Saved to browser.'); });
+    clearBtn.addEventListener('click',()=>{ if(!confirm('Reset island and clear saved Miis?')) return; miis=[]; slots=Array(6).fill(null); save(miisKey,miis); save(slotsKey,slots); renderMiis(); buildSlots(); alert('Reset.'); });
+
+    // Auto-tick hunger over time for occupants
+    setInterval(()=>{
+      let changed=false;
+      slots.forEach(s=>{ if(s){ s.hunger = Math.min(100, (s.hunger||0)+1); if(Math.random()<0.06){ appendLog(s, randomFrom(sampleLines.default)); } changed=true; }});
+      if(changed){ save(slotsKey,slots); buildSlots(); if(selected && selected.type==='slot'){
+        const occ = slots[selected.index]; if(occ) showSheet(occ, selected.index);
+      }}
+    }, 5000);
+
+    // Initial render
+    renderPreview(); renderMiis(); buildSlots();
+
+    // Helpers for loading structured clones from storage -> ensure old shorthand becomes full objects
+    (function normalizeLoaded(){
+      miis = miis.map(m=>Object.assign({id:m.id||'m_'+Date.now(), name:m.name||'Unnamed', skin:m.skin||'#ffdca8', mood:m.mood||'Neutral', hunger:m.hunger||0, friend:m.friend||0, log:m.log||[]}, m));
+      slots = slots.map(s=>{ if(!s) return null; return Object.assign({id:s.id||'s_'+Date.now(), name:s.name||'Resident', skin:s.skin||'#ffdca8', mood:s.mood||'Neutral', hunger:s.hunger||0, friend:s.friend||0, log:s.log||[]}, s); });
+    })();
+
+    // Re-render after normalization
+    renderMiis(); buildSlots();
+  </script>
 </body>
 </html>
